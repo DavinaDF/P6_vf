@@ -7,23 +7,61 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/61874f9fc9.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="JS/main.js" async ></script>
+	<script src="JS/modal.js" async ></script>
 </head>
 <body>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li class="selected"><a href="index.html">projets</a></li>
-			<li>contact</li>
-			<li><a href="login.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
+	<div id="header_admin" class="edit login_element" style="display: none;">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<h3>Mode édition</h3>
+	</div>
+	<div class="header">
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li class="selected"><a href="index.html">projets</a></li>
+				<li>contact</li>
+				<li><a id="nav_login" href="login.html">login</a></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</div>
 </header>
 <main>
+	<aside id="modal_edit" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal_title" style="display:none;">
+		<div class="modal_wrapper">
+			<section id="delete_work">
+				<i class="fa-solid fa-xmark close"></i>
+				<h3 id="modal_title">Galerie photo</h3>
+				<div class="gallery_container">
+				
+				</div>
+				<button class="button_add button_green">Ajouter une photo</button>
+			</section>
+			<section id="add_work" style="display: none">
+				<i class="fa-solid fa-xmark close"></i>
+				<i class="fa-solid fa-arrow-left"></i>
+				<h3 id="modal_title">Ajout photo</h3>
+				<div class="add_photo">
+					<i class="fa-regular fa-image"></i>
+					<button class="upload_photo">+ Ajouter photo</button>
+					<p>jpg, png : 4mo max</p>
+				</div>
+				<form action="#">
+					<label for="title">Titre</label>
+					<input type="text" name="title" id="image_title">
+					<label for="category">Catégories</label>
+					<select name="category" id="category_select">
+						<option value=""></option>
+					</select>
+				</form>
+			</section>
+		</div>
+	</aside>
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
@@ -36,7 +74,15 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2> 
+		<div class="portfolio__title">
+			<h2>Mes Projets</h2>
+			<a href="#modal_edit" id="portfolio_admin" class="login_element" style="display: none;">
+				<div class="edit login open_modal">
+					<i class="fa-regular fa-pen-to-square"></i>
+					<h3>modifier</h3>
+				</div>
+			</a>
+		</div>
 		<div class="filters">
 		</div>
 		<div class="gallery">

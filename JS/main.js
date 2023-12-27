@@ -1,122 +1,147 @@
 let categories = [{ id: 0, name: "Tous" }];
 const filters = document.querySelector(".filters");
-let idFiltreSelectionne = 0;
-
-// Récupérations des données via l'API
-// async function getWorks() {
-//   const reponse = await fetch("http://localhost:5678/api/works");
-//   const projects = await reponse.json();
-//   return projects;
-// }
-// async function getCategories() {
-//   const reponse = await fetch("http://localhost:5678/api/categories");
-//   const projectsCategories = await reponse.json();
-//   return projectsCategories;
-// }
+const gallery = document.querySelector(".gallery");
 
 // Récupération des catégories
 async function GetCategories() {
   const reponse = await fetch("http://localhost:5678/api/categories");
-  const projectsCategories = await reponse.json();
-  console.log(projectsCategories);
+  const worksCategories = await reponse.json();
+
   //Boucle de création des boutons associés aux catégories
-  for (let i = 0; i < projectsCategories.length; i++) {
-    categories[i + 1] = projectsCategories[i];
+  for (let i = 0; i < worksCategories.length; i++) {
+    categories[i + 1] = worksCategories[i];
   }
-  console.log(categories);
-  console.log(projectsCategories);
-
-  // Fonction de création des filtres en fonction du tableau contenant les filtres
-  function CreerFiltre() {
-    console.log(categories.length);
-    for (let i = 0; i < categories.length; i++) {
-      const filter = document.createElement("button");
-      filter.classList.add("filter");
-      filter.id = categories[i].id;
-      filters.appendChild(filter);
-      filter.innerText = categories[i].name;
-
-      console.log(filter.id);
-      if (filter.id == 0) {
-        filter.classList.add("selected");
-        console.log("sélection ajoutée");
-      }
-
-      console.log(filter);
-
-      // Fonction pour filtrer au clic sur les boutons
-      filter.addEventListener("click", function () {
-        const projetsFiltres = projects.filter(function (projet) {
-          return projet.categoryId == i;
-        });
-        console.log(projetsFiltres);
-      });
-    }
-    // categories[0].classList.add("selected");
-  }
-  CreerFiltre();
+  displayCategories();
 }
+GetCategories();
 
-// Fonction d'affichage au clic sur un des filtres
-// function afficherSelonFiltre(idFiltreSelectionne) {
+// Fonction de création des filtres en fonction du tableau contenant les filtres
+function displayCategories() {
+  for (let i = 0; i < categories.length; i++) {
+    const filter = document.createElement("button");
+    filter.classList.add("filter");
+    filter.id = categories[i].id;
+    filters.appendChild(filter);
+    filter.innerText = categories[i].name;
 
-// }
-
-GetCategories().then((categories) => {});
+    if (filter.id == 0) {
+      filter.classList.add("selected");
+    }
+  }
+}
 
 // Récupération des travaux depuis l'API
-async function displayWorks() {
+async function getWorks() {
   const reponse = await fetch("http://localhost:5678/api/works");
-  const projects = await reponse.json();
-
-  console.log(projects);
-  // Boucle de récupération de TOUS les éléments travaux de l'API
-  for (let i = 0; i < projects.length; i++) {
-    console.log("encore coucou");
-    const project = projects[i];
-    // Récupération de l'élément du DOM qui accueillera les fiches
-    const galleryTravaux = document.querySelector(".gallery");
-    // Création d’une balise dédiée à un projet
-    const projectElement = document.createElement("figure");
-    // On crée l’élément img contenu dans la balise figure
-    const projectImage = document.createElement("img");
-    // On accède à l’indice i de la liste pieces pour configurer la source de l’image.
-    projectImage.src = project.imageUrl;
-    // Idem pour le nom
-    const projectTitle = document.createElement("figcaption");
-    projectTitle.innerText = project.title;
-
-    // On rattache la balise figure à la section Gallery
-    galleryTravaux.appendChild(projectElement);
-    // On rattache l’image et la légende à projectElement (la balise figure)
-    projectElement.appendChild(projectImage);
-    projectElement.appendChild(projectTitle);
-
-    //On récupère la catégorie du projet
-    // const projectCategory = project.category;
-    // const category = [];
-    // category[i] = project[i].category;
-    // console.log(2);
-
-    // for (let index = 1; index < projects.length; index++) {}
-  }
-
-  //Récupération des catégories et création des boutons associés
+  const works = await reponse.json();
+  return works;
 }
 
-console.log("Coucou");
+getWorks().then((works) => {
+  displayWorks(works, 0);
+  console.log("affichage projets ok");
+});
 
-displayWorks().then((projects) => {});
+function displayWorks(works, categoryId) {
+  // Boucle de récupération de tous les éléments du tableau works
+  for (let i = 0; i < works.length; i++) {
+    const work = works[i];
+    if (categoryId != 0 && work.categoryId != categoryId) {
+      continue;
+    }
 
-// Récupération des catégories et création des boutons associés
+    const gallery = document.querySelector(".gallery");
+    const workElement = document.createElement("figure");
+    const workImage = document.createElement("img");
+    workImage.src = work.imageUrl;
+    const workTitle = document.createElement("figcaption");
+    workTitle.innerText = work.title;
 
-// async function afficherFilms() {
-//   const reponse = await fetch("http://localhost:5678/api/works");
-//   const films = await reponse.json();
+    // On rattache la balise figure à la section Gallery
+    gallery.appendChild(workElement);
+    // On rattache l’image et la légende à projectElement (la balise figure)
+    workElement.appendChild(workImage);
+    workElement.appendChild(workTitle);
+  }
+}
+
+async function filterWorks() {
+  const works = await getWorks();
+  const buttons = document.querySelectorAll(".filters button");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      gallery.innerHTML = "";
+      buttons.forEach((element) => element.classList.remove("selected"));
+      button.classList.add("selected");
+      const buttonID = event.target.id;
+      console.log(buttonID);
+      displayWorks(works, buttonID);
+    });
+  });
+}
+
+filterWorks();
+
+/* --------------     Partie admin    --------------- */
+
+// Apparition des éléments après login
+const userId = window.localStorage.getItem("userId");
+const userToken = window.localStorage.getItem("userToken");
+const headerAdmin = document.getElementById("header_admin");
+const portfolioAdmin = document.getElementById("portfolio_admin");
+const navLogin = document.getElementById("nav_login");
+// const editButton = document.querySelector(".open_modal");
+
+console.log(navLogin);
+
+function displayLoginMode() {
+  if (userId) {
+    headerAdmin.style.display = null;
+    portfolioAdmin.style.display = null;
+    document.getElementById("nav_login").href = "#";
+    document.getElementById("nav_login").innerHTML = "Logout";
+    document.getElementById("nav_login").classList.add("nav_logout");
+  }
+}
+displayLoginMode();
+
+const navLogout = document.querySelector(".nav_logout");
+
+function logoutMenu() {
+  if (navLogout) {
+    headerAdmin.style.display = "none";
+    portfolioAdmin.style.display = "none";
+    window.localStorage.clear();
+    document.getElementById("nav_login").innerHTML = "Login";
+    document.getElementById("nav_login").classList.remove("nav_logout");
+  }
+  // if ((document.getElementById("nav_login").innerHTML = "Login")) {
+  //   document.getElementById("nav_login").href = "login.html";
+  // }
+}
+
+navLogout.addEventListener("click", logoutMenu);
+
+// Apparition de la modal
+// const modal = document.querySelector("aside");
+// const faClose = document.querySelector(".close");
+// console.log(faClose);
+
+// function openModal(e) {
+//   e.preventDefault();
+//   modal.style.display = null;
+//   modal.removeAttribute("aria-hidden");
+//   modal.setAttribute("aria-modal", "true");
 // }
 
-// afficherFilms().then((films) => {
-//   console.log(films);
-// });
+// function closeModal(e) {
+//   e.preventDefault();
+//   modal.style.display = "none";
+//   modal.setAttribute("aria-hidden", "true");
+//   modal.removeAttribute("aria-modal");
+// }
 
-// const labelFiltre = "";
+// editButton.addEventListener("click", openModal);
+// faClose.addEventListener("click", closeModal);
