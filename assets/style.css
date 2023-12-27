@@ -281,6 +281,10 @@ text-align: center;
 }
 
 /* Style de la modal */
+#add_work {
+	margin: 30px 0;
+	border-bottom: 1px solid #B3B3B3;
+}
 .modal {
 	display: flex;
 	align-items: center;
@@ -292,11 +296,14 @@ text-align: center;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.6);
 }
+.modal .fa-solid {
+	cursor: pointer;
+}
 .modal_wrapper {
 	position: relative;
 	display: flex;
 	justify-content: center;
-	padding: 0 50px;
+	padding: 0 30px;
 	width: 630px;
 	max-width: calc(100vw - 20px);
 	max-height: calc(100vw - 20px);
@@ -304,6 +311,8 @@ text-align: center;
 }
 .modal_wrapper .close {
 	cursor: pointer;
+	font-size: 16px;
+	font-weight: 800;
 	position: absolute;
 	padding: 20px;
 	top: 0;
@@ -321,9 +330,29 @@ text-align: center;
 	width: 75px;
 	height: 100px;
 }
+.modal figure {
+	position: relative;
+}
+.modal .fa-trash-can {
+	top: 5px;
+	right: 5px;
+	border-radius: 2px;
+	padding: 5px;
+	font-size: 12px;
+	position: absolute;
+	color: #fff;
+	background-color: #000;
+}
+.modal .fa-arrow-left {
+	padding: 20px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
 .modal h3 {
 	text-align: center;
 	font-size: 26px;
+	margin-bottom: 30px;
 }
 .modal .button_green {
 	margin: auto;
@@ -367,4 +396,20 @@ text-align: center;
 }
 .add_photo p {
 	font-size: 10px;
+}
+#add_work form {
+	text-align: left;
+	margin:10px 0 50px 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#add_work input, #add_work select {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#add_work label {
+	margin: 2em 0 1em 0;
 }
