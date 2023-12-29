@@ -281,10 +281,10 @@ text-align: center;
 }
 
 /* Style de la modal */
-#add_work form {
+/* #add_work form {
 	margin: 30px 0;
 	border-bottom: 1px solid #B3B3B3;
-}
+} */
 .modal {
 	display: flex;
 	align-items: center;
@@ -440,8 +440,9 @@ text-align: center;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#add_work select {
-	margin-bottom: 30px;
+.separate {
+	margin: 30px 0;
+	border-bottom: 1px solid #B3B3B3;
 }
 #add_work label {
 	margin: 2em 0 1em 0;

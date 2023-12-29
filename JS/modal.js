@@ -71,15 +71,26 @@ function deleteWork() {
 
       fetch("http://localhost:5678/api/works/" + deleteId, {
         method: "DELETE",
-        mode: "cors",
-        credentials: "same-origin",
         headers: {
-          Authorization: "Bearer {token}",
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
         },
-      })
-        .then((resp) => resp.json())
-        .then((json) => console.log(JSON.stringify(json)));
+      }).then((response) => {
+        console.log(response);
+      });
+
+      displayWorksModal;
+
+      //   fetch("http://localhost:5678/api/works/" + deleteId, {
+      //     method: "DELETE",
+      //     mode: "cors",
+      //     credentials: "same-origin",
+      //     headers: {
+      //       Authorization: "Bearer ${token}",
+      //       "Content-Type": "application/json",
+      //     },
+      //   })
+      //     .then((resp) => resp.json())
+      //     .then((json) => console.log(JSON.stringify(json)));
 
       //   const objectDelete = {
       //     method: "DELETE",
@@ -152,24 +163,35 @@ function previewImg() {
 }
 previewImg();
 
-// function selectImage() {
-//   var inputFile = document.getElementById("file");
-//   inputFile.addEventListener("change", function () {
-//     console.log("je ne comprends pas tout");
-//     var reader = new FileReader();
-//     reader.readAsDataURL(inputFile);
-//     var urlImage = reader.result;
-//     console.log(reader);
-//     console.log(reader.readAsDataURL(inputFile.files[0]));
-//   });
-//   return inputFile;
-// }
-// selectImage();
+function addNewWork() {
+  formAddWork.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-// document.getElementsByTagName("body")[0].appendChild(
-//   selectImage(function (inputFile) {
-//     var reader = new FileReader();
-//     reader.readAsDataURL(inputFile.files[0]);
-//     console.log("Done");
-//   })
-// );
+    // On récupère les valeurs du formulaire
+    const formData = new FormData(formAddWork);
+    console.log(formData);
+
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      body: formData,
+      //   headers: {
+      //     Authorization: `Bearer ${userToken}`,
+      //   },
+    }).then((response) => {
+      console.log(response);
+    });
+
+    // const select = event.target.getElementById("category_select");
+    // const choice = select.selectedIndex;
+    // const valeur = select.option[choice].value;
+
+    // const newWork = {
+    //   imageUrl: event.target.querySelector("#previewImage").src,
+    //   imageTitle: event.target.querySelector("#image_title").value,
+    //   imageCategory: valeur,
+    // };
+
+    // console.log(newWork);
+  });
+}
+addNewWork();
