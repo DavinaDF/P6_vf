@@ -38,7 +38,6 @@
 				<i class="fa-solid fa-xmark close"></i>
 				<h3 id="modal_title">Galerie photo</h3>
 				<div class="gallery_container">
-				
 				</div>
 				<button class="button_add button_green">Ajouter une photo</button>
 			</section>
@@ -46,19 +45,23 @@
 				<i class="fa-solid fa-xmark close"></i>
 				<i class="fa-solid fa-arrow-left"></i>
 				<h3 id="modal_title">Ajout photo</h3>
+				<form id="formAdd" action="#">
 				<div class="add_photo">
 					<i class="fa-regular fa-image"></i>
-					<button class="upload_photo">+ Ajouter photo</button>
+					<button class="upload_photo"><input type="file" name="image" id="file" accept="image/*" required>+ Ajouter photo</button>
 					<p>jpg, png : 4mo max</p>
+					
+					<img id="previewImage" src="#" alt="Aperçu de l'image">
 				</div>
-				<form action="#">
-					<label for="title">Titre</label>
-					<input type="text" name="title" id="image_title">
-					<label for="category">Catégories</label>
-					<select name="category" id="category_select">
-						<option value=""></option>
-					</select>
+				
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="image_title">
+				<label for="category">Catégories</label>
+				<select name="category" id="category_select">
+					<option value=""></option>
+				</select>
 				</form>
+				<button class="button_submit button_grey">Valider</button>
 			</section>
 		</div>
 	</aside>

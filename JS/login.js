@@ -38,7 +38,7 @@ async function getResponseUser(user) {
     mode: "cors",
     credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
-    // Créatio
+    // Création
     body: user,
   });
   const result = await response.json();
