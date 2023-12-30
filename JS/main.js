@@ -34,6 +34,7 @@ function displayCategories() {
 async function getWorks() {
   const reponse = await fetch("http://localhost:5678/api/works");
   const works = await reponse.json();
+  console.log(works);
   return works;
 }
 
@@ -100,7 +101,7 @@ function displayLoginMode() {
   if (userId) {
     headerAdmin.style.display = null;
     portfolioAdmin.style.display = null;
-    document.getElementById("nav_login").href = "#";
+    document.getElementById("nav_login").href = "index.html";
     document.getElementById("nav_login").innerHTML = "Logout";
     document.getElementById("nav_login").classList.add("nav_logout");
   }

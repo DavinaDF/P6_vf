@@ -79,40 +79,9 @@ function deleteWork() {
       });
 
       displayWorksModal;
-
-      //   fetch("http://localhost:5678/api/works/" + deleteId, {
-      //     method: "DELETE",
-      //     mode: "cors",
-      //     credentials: "same-origin",
-      //     headers: {
-      //       Authorization: "Bearer ${token}",
-      //       "Content-Type": "application/json",
-      //     },
-      //   })
-      //     .then((resp) => resp.json())
-      //     .then((json) => console.log(JSON.stringify(json)));
-
-      //   const objectDelete = {
-      //     method: "DELETE",
-      //     headers: {
-      //       Authorization: "Bearer ${token}",
-      //       "Content-Type": "application/json",
-      //     },
-      //   };
-      //   fetch("http://localhost:5678/api/works/" + deleteId, objectDelete);
     });
   });
-
-  //   location.reload();
 }
-
-// buttonsDeleteWork.forEach(function (buttonDelete) {
-//   buttonDelete.addEventListener("click", function () {
-//     console.log("clic poubelle ok");
-//     const deleteWorkId = buttonDelete.id;
-//     console.log(deleteWorkId);
-//   });
-// });
 
 // Fonction pour afficher la modal d'ajout de travaux
 function displayAddWorkModal() {
@@ -174,24 +143,12 @@ function addNewWork() {
     fetch("http://localhost:5678/api/works", {
       method: "POST",
       body: formData,
-      //   headers: {
-      //     Authorization: `Bearer ${userToken}`,
-      //   },
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
     }).then((response) => {
       console.log(response);
     });
-
-    // const select = event.target.getElementById("category_select");
-    // const choice = select.selectedIndex;
-    // const valeur = select.option[choice].value;
-
-    // const newWork = {
-    //   imageUrl: event.target.querySelector("#previewImage").src,
-    //   imageTitle: event.target.querySelector("#image_title").value,
-    //   imageCategory: valeur,
-    // };
-
-    // console.log(newWork);
   });
 }
 addNewWork();
