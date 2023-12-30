@@ -38,11 +38,23 @@ async function getWorks() {
   return works;
 }
 
-getWorks().then((works) => {
-  displayWorks(works, 0);
-  console.log("affichage projets ok");
-});
+// Fonction de création des travaux dans le DOM
+function createWork(work) {
+  const gallery = document.querySelector(".gallery");
+  const workElement = document.createElement("figure");
+  const workImage = document.createElement("img");
+  workImage.src = work.imageUrl;
+  const workTitle = document.createElement("figcaption");
+  workTitle.innerText = work.title;
 
+  // On rattache la balise figure à la section Gallery
+  gallery.appendChild(workElement);
+  // On rattache l’image et la légende à projectElement (la balise figure)
+  workElement.appendChild(workImage);
+  workElement.appendChild(workTitle);
+}
+
+// Fonction d'affichage des travaux
 function displayWorks(works, categoryId) {
   // Boucle de récupération de tous les éléments du tableau works
   for (let i = 0; i < works.length; i++) {
@@ -50,22 +62,15 @@ function displayWorks(works, categoryId) {
     if (categoryId != 0 && work.categoryId != categoryId) {
       continue;
     }
-
-    const gallery = document.querySelector(".gallery");
-    const workElement = document.createElement("figure");
-    const workImage = document.createElement("img");
-    workImage.src = work.imageUrl;
-    const workTitle = document.createElement("figcaption");
-    workTitle.innerText = work.title;
-
-    // On rattache la balise figure à la section Gallery
-    gallery.appendChild(workElement);
-    // On rattache l’image et la légende à projectElement (la balise figure)
-    workElement.appendChild(workImage);
-    workElement.appendChild(workTitle);
+    createWork(work);
   }
 }
 
+getWorks().then((works) => {
+  displayWorks(works, 0);
+});
+
+// Fonction d'affichage des travaux au clic sur les filtres
 async function filterWorks() {
   const works = await getWorks();
   const buttons = document.querySelectorAll(".filters button");
@@ -82,7 +87,6 @@ async function filterWorks() {
     });
   });
 }
-
 filterWorks();
 
 /* --------------     Partie admin    --------------- */
@@ -93,10 +97,12 @@ const userToken = window.localStorage.getItem("userToken");
 const headerAdmin = document.getElementById("header_admin");
 const portfolioAdmin = document.getElementById("portfolio_admin");
 const navLogin = document.getElementById("nav_login");
+const navLogout = document.querySelector(".nav_logout");
 // const editButton = document.querySelector(".open_modal");
 
 console.log(navLogin);
 
+// Affichage des éléments du mode admin
 function displayLoginMode() {
   if (userId) {
     headerAdmin.style.display = null;
@@ -108,8 +114,7 @@ function displayLoginMode() {
 }
 displayLoginMode();
 
-const navLogout = document.querySelector(".nav_logout");
-
+// Fonction de déconnexion
 function logoutMenu() {
   if (navLogout) {
     headerAdmin.style.display = "none";
@@ -118,31 +123,6 @@ function logoutMenu() {
     document.getElementById("nav_login").innerHTML = "Login";
     document.getElementById("nav_login").classList.remove("nav_logout");
   }
-  // if ((document.getElementById("nav_login").innerHTML = "Login")) {
-  //   document.getElementById("nav_login").href = "login.html";
-  // }
 }
 
 navLogout.addEventListener("click", logoutMenu);
-
-// Apparition de la modal
-// const modal = document.querySelector("aside");
-// const faClose = document.querySelector(".close");
-// console.log(faClose);
-
-// function openModal(e) {
-//   e.preventDefault();
-//   modal.style.display = null;
-//   modal.removeAttribute("aria-hidden");
-//   modal.setAttribute("aria-modal", "true");
-// }
-
-// function closeModal(e) {
-//   e.preventDefault();
-//   modal.style.display = "none";
-//   modal.setAttribute("aria-hidden", "true");
-//   modal.removeAttribute("aria-modal");
-// }
-
-// editButton.addEventListener("click", openModal);
-// faClose.addEventListener("click", closeModal);

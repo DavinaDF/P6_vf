@@ -8,6 +8,12 @@ const galleryModal = document.querySelector(".gallery_container");
 const buttonAddWork = document.querySelector(".button_add");
 const arrowBack = document.querySelector(".fa-arrow-left");
 const buttonUploadPhoto = document.querySelector(".upload_photo");
+// Variables du formulaire d'ajout
+const formAddWork = document.getElementById("formAdd");
+const inputFile = document.getElementById("file");
+const previewImage = document.getElementById("previewImage");
+const inputTitle = document.getElementById("title");
+const selectedCategory = document.getElementById("category_select");
 
 // Fonction apparition de la modal
 function openModal(e) {
@@ -24,6 +30,8 @@ function closeModal(e) {
   modalAddWork.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
+  inputFile.value = "";
+  previewImage.src = "#";
 }
 
 // Actions au clic
@@ -40,6 +48,7 @@ arrowBack.addEventListener("click", function () {
 getWorks().then((works) => {
   displayWorksModal(works);
 });
+
 function displayWorksModal(works) {
   // Boucle de récupération de tous les éléments du tableau works
   for (let i = 0; i < works.length; i++) {
@@ -74,11 +83,12 @@ function deleteWork() {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
-      }).then((response) => {
-        console.log(response);
       });
 
-      displayWorksModal;
+      getWorks().then((works) => {
+        galleryModal.innerHTML = "";
+        displayWorksModal(works);
+      });
     });
   });
 }
@@ -107,11 +117,6 @@ displayCategoryModal();
 
 // ------------------------- //
 // Partie permettant d'ajouter un projet
-
-// Variables
-const formAddWork = document.getElementById("formAdd");
-const inputFile = document.getElementById("file");
-const previewImage = document.getElementById("previewImage");
 
 function previewImg() {
   inputFile.addEventListener("change", () => {

@@ -318,7 +318,7 @@ text-align: center;
 	position: relative;
 	display: flex;
 	justify-content: center;
-	padding: 0 30px;
+	padding: 30px;
 	max-width: calc(100vh - 80px);
 	max-height: calc(100vh - 100px);
     overflow-y: auto;
@@ -367,12 +367,11 @@ text-align: center;
 .modal h3 {
 	text-align: center;
 	font-size: 26px;
-	margin-bottom: 30px;
 }
-.modal .button_green {
+#delete_work button {
 	margin: auto;
 	width: 250px;
-	height: 40px;
+	height: 60px;
 	font-family: 'Syne';
 	font-weight: 300;
 	font-size: 14px;
@@ -380,11 +379,11 @@ text-align: center;
 	border-radius: 30px;
 	border-color: #1D6154;
 	background-color: #1D6154;
+	margin-bottom: 30px;
 }
 #delete_work {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 }
 .upload_photo {
 	padding: 10px 30px;
