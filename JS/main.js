@@ -34,7 +34,6 @@ function displayCategories() {
 async function getWorks() {
   const reponse = await fetch("http://localhost:5678/api/works");
   const works = await reponse.json();
-  console.log(works);
   return works;
 }
 
@@ -82,7 +81,6 @@ async function filterWorks() {
       buttons.forEach((element) => element.classList.remove("selected"));
       button.classList.add("selected");
       const buttonID = event.target.id;
-      console.log(buttonID);
       displayWorks(works, buttonID);
     });
   });
@@ -96,19 +94,19 @@ const userId = window.localStorage.getItem("userId");
 const userToken = window.localStorage.getItem("userToken");
 const headerAdmin = document.getElementById("header_admin");
 const portfolioAdmin = document.getElementById("portfolio_admin");
-const navLogin = document.getElementById("nav_login");
+const navLogin = document.querySelector(".nav_login");
 const navLogout = document.querySelector(".nav_logout");
 // const editButton = document.querySelector(".open_modal");
 
-console.log(navLogin);
-
 // Affichage des éléments du mode admin
 function displayLoginMode() {
+  console.log(userId);
   if (userId) {
     headerAdmin.style.display = null;
     portfolioAdmin.style.display = null;
     document.getElementById("nav_login").href = "index.html";
     document.getElementById("nav_login").innerHTML = "Logout";
+    document.getElementById("nav_login").classList.remove("nav_login");
     document.getElementById("nav_login").classList.add("nav_logout");
   }
 }
@@ -116,13 +114,12 @@ displayLoginMode();
 
 // Fonction de déconnexion
 function logoutMenu() {
-  if (navLogout) {
-    headerAdmin.style.display = "none";
-    portfolioAdmin.style.display = "none";
-    window.localStorage.clear();
-    document.getElementById("nav_login").innerHTML = "Login";
-    document.getElementById("nav_login").classList.remove("nav_logout");
-  }
+  console.log("ok");
+  headerAdmin.style.display = "none";
+  portfolioAdmin.style.display = "none";
+  window.localStorage.clear();
+  document.getElementById("nav_login").innerHTML = "Login";
+  document.getElementById("nav_login").classList.remove("nav_logout");
+  document.getElementById("nav_login").classList.add("nav_login");
 }
-
-navLogout.addEventListener("click", logoutMenu);
+navLogin.addEventListener("click", logoutMenu);

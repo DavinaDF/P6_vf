@@ -1,5 +1,6 @@
 // Variables globales
 const editButton = document.querySelector(".open_modal");
+const backgroundModal = document.getElementById("background_modal");
 const modal = document.querySelector("aside");
 const faClose = document.querySelectorAll(".close");
 const modalDeleteWork = document.getElementById("delete_work");
@@ -14,6 +15,7 @@ const inputFile = document.getElementById("file");
 const previewImage = document.getElementById("previewImage");
 const inputTitle = document.getElementById("title");
 const selectedCategory = document.getElementById("category_select");
+console.log(selectedCategory.value);
 
 // Fonction apparition de la modal
 function openModal(e) {
@@ -21,10 +23,20 @@ function openModal(e) {
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
   modal.setAttribute("aria-modal", "true");
+  // Affichage des projets
+  galleryModal.innerHTML = "";
+  getWorks().then((works) => {
+    displayWorksModal(works);
+  });
 }
 // Fonction fermeture de la modal
 function closeModal(e) {
   e.preventDefault();
+  // Affichage des projets sur la page d'accueil
+  gallery.innerHTML = "";
+  getWorks().then((works) => {
+    displayWorks(works, 0);
+  });
   modal.style.display = "none";
   modalDeleteWork.style.display = null;
   modalAddWork.style.display = "none";
@@ -32,6 +44,10 @@ function closeModal(e) {
   modal.removeAttribute("aria-modal");
   inputFile.value = "";
   previewImage.src = "#";
+  previewImage.style.display = "none";
+  inputTitle.value = "";
+  selectedCategory.value = "";
+  console.log("éléments du formulaire remis à zéro");
 }
 
 // Actions au clic
@@ -43,11 +59,13 @@ arrowBack.addEventListener("click", function () {
   modalDeleteWork.style.display = null;
   modalAddWork.style.display = "none";
 });
-
-// Affichage des projets
-getWorks().then((works) => {
-  displayWorksModal(works);
+backgroundModal.addEventListener("click", function (e) {
+  const modalWrapper = document.querySelector(".modal_wrapper");
+  if (!modalWrapper.contains(e.target)) {
+    closeModal(e);
+  }
 });
+formAddWork.addEventListener("submit", addNewWork);
 
 function displayWorksModal(works) {
   // Boucle de récupération de tous les éléments du tableau works
@@ -88,6 +106,7 @@ function deleteWork() {
       getWorks().then((works) => {
         galleryModal.innerHTML = "";
         displayWorksModal(works);
+        console.log("affichage mis à jour");
       });
     });
   });
@@ -100,7 +119,7 @@ function displayAddWorkModal() {
 }
 buttonAddWork.addEventListener("click", displayAddWorkModal);
 
-//Fonction qui génère les catégories dynamiquement
+//Fonction qui génère les catégories dynamiquement pour liste
 async function displayCategoryModal() {
   const select = document.querySelector("form select");
   const reponse = await fetch("http://localhost:5678/api/categories");
@@ -137,23 +156,61 @@ function previewImg() {
 }
 previewImg();
 
-function addNewWork() {
-  formAddWork.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    // On récupère les valeurs du formulaire
-    const formData = new FormData(formAddWork);
-    console.log(formData);
-
-    fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    }).then((response) => {
-      console.log(response);
-    });
+function checkForm() {
+  const validateButton = document.querySelector(".button_submit");
+  formAddWork.addEventListener("input", () => {
+    if (!selectedCategory.value == "") {
+      console.log("Tous les champs sont ok");
+      validateButton.classList.remove("button_grey");
+      validateButton.classList.add("button_green");
+    } else {
+      validateButton.classList.remove("button_green");
+      validateButton.classList.add("button_grey");
+    }
   });
 }
-addNewWork();
+checkForm();
+
+// function allowSubmit() {
+//   const validForm = checkForm();
+//   if (validForm == true) {
+//     console.log("possibilité de valider l'ajout");
+//     addNewWork();
+//   } else {
+//     validateButton.classList.remove("button_green");
+//     validateButton.classList.add("button_grey");
+//     console.log("formulaire non conforme");
+//   }
+// }
+// allowSubmit();
+
+function addNewWork() {
+  // On récupère les valeurs du formulaire
+  const formData = new FormData(formAddWork);
+  console.log(formData);
+
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  console.log("nouveau travaux ajouté");
+  // .then((response) => {
+  //   console.log(response);
+  // });
+  getWorks().then((works) => {
+    galleryModal.innerHTML = "";
+    console.log(gallery);
+    displayWorksModal(works);
+    // displayWorks(works, 0);
+    console.log("affichage travaux dans modal mis à jour ");
+  });
+
+  console.log(selectedCategory.value);
+  console.log(inputTitle.value);
+  // Formulaire remis à vide
+  formData.delete("inputTitle", "selectedCategory");
+  // closeModal;
+}
