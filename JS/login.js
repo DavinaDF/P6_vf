@@ -20,18 +20,11 @@ form.addEventListener("submit", (event) => {
     .then((userData) => {
       const userId = userData.userId;
       const userToken = userData.token;
-      console.log(userData);
-      console.log(userId, userToken);
       arrayUserData = [userId, userToken];
-      console.log(arrayUserData);
       return arrayUserData;
     })
     .then((arrayData) => {
-      try {
-        login(arrayData[0], arrayData[1]);
-      } catch {
-        displayErrorMessage();
-      }
+      login(arrayData[0], arrayData[1]);
     });
 });
 
@@ -47,15 +40,21 @@ async function getResponseUser(user) {
   });
   const result = await response.json();
   responseStatus = response.status;
+  console.log(result);
   return result;
 }
 
 // Fonction de connection
 async function login(id, token) {
-  console.log("connexion ok");
-  window.localStorage.setItem("userId", id);
-  window.localStorage.setItem("userToken", token);
-  window.location = "index.html";
+  if (id && token) {
+    console.log("connexion ok");
+    clearErrorMessage();
+    window.localStorage.setItem("userId", id);
+    window.localStorage.setItem("userToken", token);
+    window.location = "index.html";
+  } else {
+    displayErrorMessage();
+  }
 }
 
 // Fonction d'affichage d'un message d'erreur
@@ -64,4 +63,11 @@ function displayErrorMessage() {
   password.style.border = "1px solid #FF0000";
   const errorMessage = document.querySelector(".error_message");
   errorMessage.textContent = "L'e-mail ou le mot de passe est incorrect.";
+}
+
+function clearErrorMessage() {
+  email.style.border = "none";
+  password.style.border = "none";
+  const errorMessage = document.querySelector(".error_message");
+  errorMessage.style.display = "none";
 }

@@ -34,6 +34,9 @@ h3, i {
 	vertical-align: baseline;
 	text-decoration: none;
 }
+button {
+	border-style: solid;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -41,6 +44,10 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 ol, ul {
 	list-style: none;
@@ -61,8 +68,8 @@ table {
 
 /* Généralités */
 main {
+	margin: auto;
 	max-width: 1140px;
-	margin:auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
 }
@@ -70,15 +77,15 @@ header {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	/* align-items: center; */
 }
 header .header {
-	margin-top: 20px;
+	width: 1140px;
+	margin: auto;
+	padding-top: 10px;
 	display: flex;
-	justify-content: center;
-	gap: 600px;
-	/* max-width: 1140px;
-	display: flex;
-	justify-content: center; */
+	justify-content: space-between;
 }
 header .edit {
 	width: 100%;
@@ -188,7 +195,7 @@ nav .selected {
 	padding: 10px 30px;
 	border-radius: 30px;
 	background-color: #fff;
-	/* border-color: #23c5d1; */
+	border-color:#1D6154
 }
 .filters .selected {
 	font-family: 'Syne';
@@ -197,7 +204,7 @@ nav .selected {
 	padding: 10px 30px;
 	color: #fff;
 	border-radius: 30px;
-	border-color: #23c5d1;
+	border-color: #1D6154;
 	background-color: #1D6154;
 }
 
@@ -323,11 +330,14 @@ text-align: center;
 	position: relative;
 	display: flex;
 	justify-content: center;
-	padding: 30px;
+	padding: 10px 30px;
 	max-width: calc(100vh - 80px);
-	max-height: calc(100vh - 100px);
+	max-height: calc(100vh - 60px);
     overflow-y: auto;
 	background-color: #fff;
+}
+.modal_wrapper section {
+	margin: 20px 0;
 }
 .modal_wrapper .close {
 	cursor: pointer;
@@ -384,7 +394,6 @@ text-align: center;
 	border-radius: 30px;
 	border-color: #1D6154;
 	background-color: #1D6154;
-	margin-bottom: 30px;
 }
 #delete_work {
 	display: flex;
