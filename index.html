@@ -10,8 +10,8 @@
 	<script src="https://kit.fontawesome.com/61874f9fc9.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="JS/main.js" async ></script>
-	<script src="JS/modal.js" async ></script>
+	<script src="JS/main.js" defer ></script>
+	<script src="JS/modal.js" defer ></script>
 </head>
 <body>
 <header>
@@ -33,11 +33,11 @@
 	</div>
 </header>
 <main>
-	<div id="background_modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal_title" style="display:none;">
+	<aside id="background_modal" class="modal" aria-hidden="true" aria-labelledby="portfolio_admin" style="display:none;">
 		<div class="modal_wrapper">
 			<section id="delete_work">
 				<i class="fa-solid fa-xmark close"></i>
-				<h3 id="modal_title">Galerie photo</h3>
+				<h3 class="modal_title">Galerie photo</h3>
 				<div class="gallery_container">
 				</div>
 				<button class="button_add button_green">Ajouter une photo</button>
@@ -45,21 +45,21 @@
 			<section id="add_work" style="display: none">
 				<i class="fa-solid fa-xmark close"></i>
 				<i class="fa-solid fa-arrow-left"></i>
-				<h3 id="modal_title">Ajout photo</h3>
+				<h3 class="modal_title">Ajout photo</h3>
 				<form id="formAdd" action="#">
 				<div class="add_photo">
 					<i class="fa-regular fa-image"></i>
-					<button class="upload_photo"><input type="file" name="image" id="file" accept="image/*" required>+ Ajouter photo</button>
+					<input type="file" name="image" id="file" accept="image/*" required><button class="upload_photo">+ Ajouter photo</button>
 					<p>jpg, png : 4mo max</p>
 					
 					<img id="previewImage" src="#" alt="Aperçu de l'image">
 				</div>
 				
-				<label for="title">Titre</label>
-				<input type="text" name="title" id="image_title" required>
-				<label for="category">Catégories</label>
-				<select name="category" id="category_select" required>
-					<option value=""></option>
+				<label for="title_new_work">Titre</label>
+				<input type="text" name="title" id="title_new_work" required>
+				<label for="category_new_work">Catégories</label>
+				<select name="category" id="category_new_work" required>
+					<option value="">  </option>
 				</select>
 				<div class="separate"></div>
 				<button type="submit" class="button_submit button_grey">Valider</button>
@@ -67,7 +67,7 @@
 				
 			</section>
 		</div>
-	</div>
+	</aside>
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">

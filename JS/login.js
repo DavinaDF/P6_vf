@@ -1,7 +1,6 @@
 const form = document.querySelector("form");
 const email = document.getElementById("email");
 const password = document.getElementById("mdp");
-let responseStatus;
 let arrayUserData;
 
 // Quand on submit
@@ -39,15 +38,12 @@ async function getResponseUser(user) {
     body: user,
   });
   const result = await response.json();
-  responseStatus = response.status;
-  console.log(result);
   return result;
 }
 
 // Fonction de connection
 async function login(id, token) {
   if (id && token) {
-    console.log("connexion ok");
     clearErrorMessage();
     window.localStorage.setItem("userId", id);
     window.localStorage.setItem("userToken", token);

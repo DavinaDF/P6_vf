@@ -13,14 +13,13 @@ const buttonUploadPhoto = document.querySelector(".upload_photo");
 const formAddWork = document.getElementById("formAdd");
 const inputFile = document.getElementById("file");
 const previewImage = document.getElementById("previewImage");
-const inputTitle = document.getElementById("title");
-const selectedCategory = document.getElementById("category_select");
-console.log(selectedCategory.value);
+const inputTitle = document.getElementById("title_new_work");
+const selectedCategory = document.getElementById("category_new_work");
 
 // Fonction apparition de la modal
 function openModal(e) {
   e.preventDefault();
-  modal.style.display = null;
+  modal.style = null;
   modal.removeAttribute("aria-hidden");
   modal.setAttribute("aria-modal", "true");
   // Affichage des projets
@@ -37,7 +36,7 @@ function closeModal(e) {
   getWorks().then((works) => {
     displayWorks(works, 0);
   });
-  modal.style.display = "none";
+  modal.style = "display:none;";
   modalDeleteWork.style.display = null;
   modalAddWork.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
@@ -47,7 +46,6 @@ function closeModal(e) {
   previewImage.style.display = "none";
   inputTitle.value = "";
   selectedCategory.value = "";
-  console.log("éléments du formulaire remis à zéro");
 }
 
 // Actions au clic
@@ -91,22 +89,25 @@ function displayWorksModal(works) {
 // Fonction de suppression des travaux
 function deleteWork() {
   const buttonsDeleteWork = document.querySelectorAll(".fa-trash-can");
-  console.log(buttonsDeleteWork);
   buttonsDeleteWork.forEach(function (buttonDelete) {
     buttonDelete.addEventListener("click", function () {
+      // e.preventDefault();
       const deleteId = buttonDelete.id;
-
       fetch("http://localhost:5678/api/works/" + deleteId, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
         },
-      });
-
-      getWorks().then((works) => {
-        galleryModal.innerHTML = "";
-        displayWorksModal(works);
-        console.log("affichage mis à jour");
+        mode: "cors",
+        credentials: "same-origin",
+      }).then(() => {
+        getWorks().then((works) => {
+          gallery.innerHTML = "";
+          galleryModal.innerHTML = "";
+          displayWorksModal(works);
+          displayWorks(works, 0);
+        });
       });
     });
   });
@@ -140,12 +141,10 @@ displayCategoryModal();
 function previewImg() {
   inputFile.addEventListener("change", () => {
     const file = inputFile.files[0];
-    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
         previewImage.src = e.target.result;
-        console.log(previewImage.src);
         previewImage.style.display = "block";
       };
       reader.readAsDataURL(file);
@@ -159,8 +158,11 @@ previewImg();
 function checkForm() {
   const validateButton = document.querySelector(".button_submit");
   formAddWork.addEventListener("input", () => {
-    if (!selectedCategory.value == "") {
-      console.log("Tous les champs sont ok");
+    if (
+      !inputFile.value == "" &&
+      !inputTitle.value == "" &&
+      !selectedCategory.value == ""
+    ) {
       validateButton.classList.remove("button_grey");
       validateButton.classList.add("button_green");
     } else {
@@ -171,46 +173,22 @@ function checkForm() {
 }
 checkForm();
 
-// function allowSubmit() {
-//   const validForm = checkForm();
-//   if (validForm == true) {
-//     console.log("possibilité de valider l'ajout");
-//     addNewWork();
-//   } else {
-//     validateButton.classList.remove("button_green");
-//     validateButton.classList.add("button_grey");
-//     console.log("formulaire non conforme");
-//   }
-// }
-// allowSubmit();
-
+// Fonction ajout travaux dans API
 function addNewWork() {
   // On récupère les valeurs du formulaire
   const formData = new FormData(formAddWork);
-  console.log(formData);
 
   fetch("http://localhost:5678/api/works", {
     method: "POST",
     body: formData,
     headers: {
       Authorization: `Bearer ${userToken}`,
+      "Content-Type": "application/json",
     },
+  }).then(() => {
+    getWorks().then((works) => {
+      galleryModal.innerHTML = "";
+      displayWorksModal(works);
+    });
   });
-  console.log("nouveau travaux ajouté");
-  // .then((response) => {
-  //   console.log(response);
-  // });
-  getWorks().then((works) => {
-    galleryModal.innerHTML = "";
-    console.log(gallery);
-    displayWorksModal(works);
-    // displayWorks(works, 0);
-    console.log("affichage travaux dans modal mis à jour ");
-  });
-
-  console.log(selectedCategory.value);
-  console.log(inputTitle.value);
-  // Formulaire remis à vide
-  formData.delete("inputTitle", "selectedCategory");
-  // closeModal;
 }

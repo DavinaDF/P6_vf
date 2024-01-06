@@ -78,7 +78,6 @@ header {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	/* align-items: center; */
 }
 header .header {
 	width: 1140px;
@@ -224,6 +223,8 @@ nav .selected {
 .gallery figcaption {
 	margin: 10px 0;
 }
+
+/* Contact */
 #contact {
 	width: 50%;
 margin: auto;
@@ -273,6 +274,11 @@ footer nav ul {
 	margin: 2em
 }
 
+/* ----------------- Page login ---------------- */
+
+main #login {
+	width: 500px;
+}
 #login {
 	width: 50%;
 margin: auto;
@@ -306,11 +312,8 @@ text-align: center;
 	text-align: center;
 }
 
-/* Style de la modal */
-/* #add_work form {
-	margin: 30px 0;
-	border-bottom: 1px solid #B3B3B3;
-} */
+/* ---------------- Modal -----------------*/
+
 .modal {
 	display: flex;
 	align-items: center;
@@ -328,8 +331,6 @@ text-align: center;
 .modal_wrapper {
 	/* overflow: hidden; */
 	position: relative;
-	display: flex;
-	justify-content: center;
 	padding: 10px 30px;
 	max-width: calc(100vh - 80px);
 	max-height: calc(100vh - 60px);
@@ -382,11 +383,12 @@ text-align: center;
 .modal h3 {
 	text-align: center;
 	font-size: 26px;
+	margin-bottom: 20px;
 }
 #delete_work button {
 	margin: auto;
+	padding: 10px 50px;
 	width: 250px;
-	height: 60px;
 	font-family: 'Syne';
 	font-weight: 300;
 	font-size: 14px;
@@ -455,7 +457,7 @@ text-align: center;
   }
 #add_work form {
 	text-align: left;
-	margin:10px 0 50px 0;
+	margin:10px 0;
 	display: flex;
 	flex-direction: column;
 }
